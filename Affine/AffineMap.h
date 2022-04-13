@@ -122,6 +122,13 @@ public:
         std::swap(M[5], M[7]);
     }
 
+    void GetUnscaledMatrix(float unscaledMatrix[9])
+    {
+        Get(unscaledMatrix, 9);
+        unscaledMatrix[0] = unscaledMatrix[3] = unscaledMatrix[6] = 1.0f;
+    }
+
+
     void Get(float* map, size_t size = 12) const
     {
         if (size == 3)
