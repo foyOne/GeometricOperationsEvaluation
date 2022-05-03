@@ -1,72 +1,29 @@
 #include "STLReader.h"
 
-#include "ThirdPartyLibraries/stlio.hpp"
+#include "stlio.hpp"
 
-bool STLReader::Read(std::string filename, std::vector<float>& vertices, std::vector<float>& normals, size_t& triangles)
+STLModelPtr STLReader::Read(std::string file)
 {
+	STLModelPtr model(new STLModel());
+
 	try
 	{
-		auto solid = tyti::stl::read(filename);
+		auto solid = tyti::stl::read(file);
 
-		triangles = solid.first.normals.size();
-		vertices.resize(3 * solid.first.vertices.size());
-		normals.resize(3 * solid.first.normals.size());
+		size_t verticesCount = 3 * solid.first.vertices.size();
+		size_t normalsCount = 3 * solid.first.normals.size();
 
-		size_t i = 0;
-		for (auto it = solid.first.vertices.begin(); it != solid.first.vertices.end(); ++it, i += 3)
-		{
-			vertices[i + 0] = it->data[0];
-			vertices[i + 1] = it->data[1];
-			vertices[i + 2] = it->data[2];
-		}
+		model->vertices.resize(3 * solid.first.vertices.size());
+		model->normals.resize(3 * solid.first.normals.size());
 
-		i = 0;
-		for (auto it = solid.first.normals.begin(); it != solid.first.normals.end(); ++it, i += 3)
-		{
-			normals[i + 0] = it->data[0];
-			normals[i + 1] = it->data[1];
-			normals[i + 2] = it->data[2];
-		}
-
-		return true;
+		std::memcpy(model->vertices.data(), solid.first.vertices.data(), verticesCount * sizeof(float));
+		std::memcpy(model->normals.data(), solid.first.normals.data(), normalsCount * sizeof(float));
 	}
 	catch (const std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
-
-		return false;
+		model.reset();
 	}
-}
 
-//bool STLReader::ReadAsArray(std::string filename, float*& vertices, float*& normals, size_t& triangles)
-//{
-//	try
-//	{
-//		auto solid = tyti::stl::read(filename);
-//		triangles = solid.first.normals.size();
-//		vertices = new float[3 * solid.first.vertices.size()];
-//		normals = new float[3 * solid.first.normals.size()];
-//		size_t i = 0;
-//		for (auto it = solid.first.vertices.begin(); it != solid.first.vertices.end(); ++it, i += 3)
-//		{
-//			vertices[i + 0] = it->data[0];
-//			vertices[i + 1] = it->data[1];
-//			vertices[i + 2] = it->data[2];
-//		}
-//		i = 0;
-//		for (auto it = solid.first.normals.begin(); it != solid.first.normals.end(); ++it, i += 3)
-//		{
-//			normals[i + 0] = it->data[0];
-//			normals[i + 1] = it->data[1];
-//			normals[i + 2] = it->data[2];
-//		}
-//
-//		return true;
-//	}
-//	catch (const std::exception& e)
-//	{
-//		std::cout << e.what() << std::endl;
-//
-//		return false;
-//	}
-//}
+	return model;
+}

@@ -1,21 +1,15 @@
-﻿#include "AffineMap.h"
-#include "DataModels/STLModel/STLModel.h"
+﻿#include "Readers/STLReader/STLReader.h"
+#include "Writers/STLWriter/STLWriter.h"
+
 #include "TransformationExecutors/StandardSTLTransformationExecutor/StandardSTLTransformationExecutor.h"
-#include "TransformationExecutors/MKLSTLTransformationExecutor/MKLSTLTransformationExecutor.h"
+#include "TransformationExecutors/TransformationExecutor.h"
+#include "Result.h"
 
-#include <iostream>
-#include <memory>
-#include <filesystem>
+#include "STLModelTest.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-#include <string>
 #include <time.h>
 #include <sstream>
 
-
-#include <mkl.h>
 std::string GetDate()
 {
     std::time_t now = std::time(nullptr);
@@ -39,36 +33,18 @@ std::string GenerateOutputFile(std::string file)
     return ss.str();
 }
 
-void main()
+int main()
 {
-    std::string file = "cube_ascii.stl";
-    std::string transformed = GenerateOutputFile(file);
+    std::string pathToTest = "TestData/InputModels/";
 
-    std::filesystem::path testDataPath("TestData");
+    STLModelTest test(pathToTest);
 
-    std::filesystem::path input = testDataPath / "InputModels" / file;
-    std::filesystem::path output = testDataPath / "OutputModels" / transformed;
+    TransformationBuilder builder;
+    builder.AddRotation(Rotation({ 0, 0, 1 }, 180));
 
-    STLModel model(input.u8string());
+    TransformationExecutorPtr stlExecutor(new StandardSTLTransformationExecutor(builder));
 
-    std::shared_ptr<ITtransformationExecutor> ste;
-    ste.reset(new MKLSTLTransformationExecutor());
-    model.SetTtransformationExecutor(ste);
+    test.Start(stlExecutor, true);
 
-    auto map = AffineMap();
-    map.RotateX(M_PI / 6);
-    map.RotateY(M_PI / 3);
-    map.RotateZ(M_PI / 2);
-    map.Scale(1, 2, 3);
-    map.Reflection(1, 1, 1);
-    map.Reflection(1, 2, 3);
-
-    //map.Rotate(1, 1, 1, M_PI_2);
-    //map.Reflection(1, 1, 1);
-    //map.RotateX(-M_PI_2);
-    //map.Reflection(1, 2, 3);
-    //map.Translate(0, 0, -10);
-
-    model.Transform(map);
-    model.Write(output.u8string());
+    return 0;
 }

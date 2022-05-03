@@ -1,74 +1,89 @@
 #include "StandardSTLTransformationExecutor.h"
+#include "../TransformationView.h"
 
-#include <cmath>
+#include "../Result.h"
 
-#include "AffineMap.h"
+#include "../Math.h"
+#include <omp.h>
 
-void StandardSTLTransformationExecutor::Transform(std::vector<float>& vertices, std::vector<float>& normals, size_t trianglesCount, const AffineMap& map)
+Result StandardSTLTransformationExecutor::Transform(const STLModelPtr model)
 {
-	float M[9];
-	float T[3];
-	map.Get(M, T);
-	AffineMap::Transpose(M);
+    STLModelPtr copy = GetCopy(model);
+    Result result(copy, 0.0);
 
-	size_t numVertices = 9 * trianglesCount;
-	size_t numNormals = 3 * trianglesCount;
+    auto& vertices = copy->vertices;
+    auto& normals = copy->normals;
 
-	float x = 0, y = 0, z = 0;
-	for (size_t i = 0; i < numVertices; i += 3)
-	{
-		x = vertices[i] * M[0] + vertices[i + 1] * M[3] + vertices[i + 2] * M[6];
-		y = vertices[i] * M[1] + vertices[i + 1] * M[4] + vertices[i + 2] * M[7];
-		z = vertices[i] * M[2] + vertices[i + 1] * M[5] + vertices[i + 2] * M[8];
+    size_t vertexCount = vertices.size();
+    size_t normalCount = normals.size();
 
-		vertices[i + 0] = x;
-		vertices[i + 1] = y;
-		vertices[i + 2] = z;
-	}
+    TransformationView viewer;
+
+    double time = 0.0;
+
+    for (const auto& t : _builder.GetTransformations())
+    {
+        auto m = viewer.AsMatrix(t);
+
+        if (t->GetType() == TransformationType::Translation)
+        {
+            time = omp_get_wtime();
+            for (size_t i = 0; i < vertexCount; i += 3)
+            {
+                vertices[i + 0] += m[0];
+                vertices[i + 1] += m[1];
+                vertices[i + 2] += m[2];
+            }
+            result.time += omp_get_wtime() - time;
+        }
+        else
+        {
+            Math::Transpose3x3(m);
+            float x = 0, y = 0, z = 0;
+
+            time = omp_get_wtime();
+            for (size_t i = 0; i < vertexCount; i += 3)
+            {
+                Math::VectorMatrix3x3(&vertices[i], m);
+                //x = vertices[i + 0] * m[0] + vertices[i + 1] * m[3] + vertices[i + 2] * m[6];
+                //y = vertices[i + 0] * m[1] + vertices[i + 1] * m[4] + vertices[i + 2] * m[7];
+                //z = vertices[i + 0] * m[2] + vertices[i + 1] * m[5] + vertices[i + 2] * m[8];
+
+                //vertices[i + 0] = x;
+                //vertices[i + 1] = y;
+                //vertices[i + 2] = z;
+            }
+            result.time += omp_get_wtime() - time;
 
 
-	if (map.IsTranslation())
-	{
-		for (size_t i = 0; i < numVertices; i += 3)
-		{
-			vertices[i + 0] += T[0];
-			vertices[i + 1] += T[1];
-			vertices[i + 2] += T[2];
-		}
-	}
+            if (t->GetType() != TransformationType::Scale)
+            {
+                time = omp_get_wtime();
+                for (size_t i = 0; i < normalCount; i += 3)
+                {
+                    Math::VectorMatrix3x3(&normals[i], m);
+                    //x = normals[i + 0] * m[0] + normals[i + 1] * m[3] + normals[i + 2] * m[6];
+                    //y = normals[i + 0] * m[1] + normals[i + 1] * m[4] + normals[i + 2] * m[7];
+                    //z = normals[i + 0] * m[2] + normals[i + 1] * m[5] + normals[i + 2] * m[8];
 
+                    //normals[i + 0] = x;
+                    //normals[i + 1] = y;
+                    //normals[i + 2] = z;
+                }
+                result.time += omp_get_wtime() - time;
+            }
+        }
+    }
 
-	if (map.IsReflection())
-	{
-		for (size_t i = 0; i < numVertices; i += 9)
-		{
-			std::swap(vertices[i + 0], vertices[i + 3]);
-			std::swap(vertices[i + 1], vertices[i + 4]);
-			std::swap(vertices[i + 2], vertices[i + 5]);
-		}
-	}
+    if (NeedToCorrectAfterReflection())
+    {
+        for (size_t i = 0; i < vertexCount; i += 9)
+        {
+            std::swap(vertices[i + 0], vertices[i + 3]);
+            std::swap(vertices[i + 1], vertices[i + 4]);
+            std::swap(vertices[i + 2], vertices[i + 5]);
+        }
+    }
 
-
-	for (size_t i = 0; i < numNormals; i += 3)
-	{
-		x = normals[i] * M[0] + normals[i + 1] * M[3] + normals[i + 2] * M[6];
-		y = normals[i] * M[1] + normals[i + 1] * M[4] + normals[i + 2] * M[7];
-		z = normals[i] * M[2] + normals[i + 1] * M[5] + normals[i + 2] * M[8];
-
-		normals[i + 0] = x;
-		normals[i + 1] = y;
-		normals[i + 2] = z;
-	}
-
-	if (map.IsScale())
-	{
-		float magnitude = 0;
-		for (size_t i = 0; i < numNormals; i += 3)
-		{
-			magnitude = std::sqrt(normals[i + 0] * normals[i + 0] + normals[i + 1] * normals[i + 1] + normals[i + 2] * normals[i + 2]);
-			normals[i + 0] /= magnitude;
-			normals[i + 1] /= magnitude;
-			normals[i + 2] /= magnitude;
-		}
-	}
+    return result;
 }

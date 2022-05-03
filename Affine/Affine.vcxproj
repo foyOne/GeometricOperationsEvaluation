@@ -46,6 +46,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseInteloneMKL>Sequential</UseInteloneMKL>
+    <UseIntelIPP1A>false</UseIntelIPP1A>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -120,8 +121,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\filim\source\repos\Affine\Affine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\filim\source\repos\Affine\Affine\TPL;C:\Users\filim\source\repos\Affine\Affine\Models;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,34 +148,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Affine.cpp" />
-    <ClCompile Include="AffineMap.cpp" />
-    <ClCompile Include="DataModels\STLModel\STLModel.cpp" />
+    <ClCompile Include="Models\STLModel\STLModel.cpp" />
     <ClCompile Include="Readers\STLReader\STLReader.cpp" />
     <ClCompile Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.cpp" />
     <ClCompile Include="TransformationExecutors\StandardSTLTransformationExecutor\StandardSTLTransformationExecutor.cpp" />
     <ClCompile Include="Writers\STLWriter\STLWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AffineMap.h" />
-    <ClInclude Include="DataModels\STLModel\STLModel.h" />
+    <ClInclude Include="AffineTransformation.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="Models\STLModel\STLModel.h" />
     <ClInclude Include="Readers\STLReader\STLReader.h" />
-    <ClInclude Include="stlio.hpp" />
-    <ClInclude Include="TransformationExecutors\ITtransformationExecutor.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="STLModelTest.h" />
+    <ClInclude Include="TPL\stlio.hpp" />
+    <ClInclude Include="TransformationBuilder.h" />
+    <ClInclude Include="TransformationExecutors\TransformationExecutor.h" />
     <ClInclude Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.h" />
     <ClInclude Include="TransformationExecutors\StandardSTLTransformationExecutor\StandardSTLTransformationExecutor.h" />
+    <ClInclude Include="TransformationView.h" />
     <ClInclude Include="Writers\STLWriter\STLWriter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\boost.1.77.0.0\build\boost.targets" Condition="Exists('..\packages\boost.1.77.0.0\build\boost.targets')" />
+    <Import Project="..\packages\boost.1.79.0\build\boost.targets" Condition="Exists('..\packages\boost.1.79.0\build\boost.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\boost.1.77.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.77.0.0\build\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.79.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.79.0\build\boost.targets'))" />
   </Target>
 </Project>

@@ -13,16 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="DataModels">
-      <UniqueIdentifier>{063e6a7b-042b-4736-88cb-8eb471ed4f40}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
-    </Filter>
-    <Filter Include="DataModels\STLModel">
-      <UniqueIdentifier>{d4c9199f-1706-4f20-be60-efd7caf18c52}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
-    </Filter>
     <Filter Include="Readers">
       <UniqueIdentifier>{c95613b7-b82b-4649-ab70-a44b417ede1e}</UniqueIdentifier>
     </Filter>
@@ -43,22 +33,26 @@
     <Filter Include="TransformationExecutors\StandardSTLTransformationExecutor">
       <UniqueIdentifier>{c8f702ac-8991-40c1-8426-8b151e1fc729}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThirdPartyLibraries">
-      <UniqueIdentifier>{82228a3f-16e3-419c-a760-a4be9e7b0615}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TransformationExecutors\MKLSTLTransformationExecutor">
       <UniqueIdentifier>{e2a774d5-159c-4d4c-a459-a7e365d6ea51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{063e6a7b-042b-4736-88cb-8eb471ed4f40}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Models\STLModel">
+      <UniqueIdentifier>{d4c9199f-1706-4f20-be60-efd7caf18c52}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="TPL">
+      <UniqueIdentifier>{555a62d7-f391-454c-b4eb-99c95904f505}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Affine.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="AffineMap.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\STLModel\STLModel.cpp">
-      <Filter>DataModels\STLModel</Filter>
     </ClCompile>
     <ClCompile Include="Readers\STLReader\STLReader.cpp">
       <Filter>Readers\STLReader</Filter>
@@ -72,34 +66,55 @@
     <ClCompile Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.cpp">
       <Filter>TransformationExecutors\MKLSTLTransformationExecutor</Filter>
     </ClCompile>
+    <ClCompile Include="Models\STLModel\STLModel.cpp">
+      <Filter>Models\STLModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AffineMap.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\STLModel\STLModel.h">
-      <Filter>DataModels\STLModel</Filter>
-    </ClInclude>
     <ClInclude Include="Readers\STLReader\STLReader.h">
       <Filter>Readers\STLReader</Filter>
     </ClInclude>
     <ClInclude Include="Writers\STLWriter\STLWriter.h">
       <Filter>Writers\STLWriter</Filter>
     </ClInclude>
-    <ClInclude Include="TransformationExecutors\ITtransformationExecutor.h">
+    <ClInclude Include="TransformationExecutors\TransformationExecutor.h">
       <Filter>TransformationExecutors</Filter>
     </ClInclude>
     <ClInclude Include="TransformationExecutors\StandardSTLTransformationExecutor\StandardSTLTransformationExecutor.h">
       <Filter>TransformationExecutors\StandardSTLTransformationExecutor</Filter>
     </ClInclude>
-    <ClInclude Include="stlio.hpp">
-      <Filter>ThirdPartyLibraries</Filter>
-    </ClInclude>
     <ClInclude Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.h">
       <Filter>TransformationExecutors\MKLSTLTransformationExecutor</Filter>
     </ClInclude>
+    <ClInclude Include="Models\STLModel\STLModel.h">
+      <Filter>Models\STLModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="STLModelTest.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="AffineTransformation.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationBuilder.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationView.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TPL\stlio.hpp">
+      <Filter>TPL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
