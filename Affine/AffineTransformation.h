@@ -102,9 +102,8 @@ public:
             x /= m;
             y /= m;
             z /= m;
-
-            this->axis = { x, y, z };
         }
+        this->axis = { x, y, z };
     }
 
     Rotation(const Rotation& other)
@@ -127,9 +126,8 @@ class Reflection : public Transformation
 {
 public:
 
-    Reflection(const std::array<float, 3>& normal)
+    Reflection(const std::array<float, 3>& normal) : Reflection(normal[0], normal[1], normal[2])
     {
-        Reflection(normal[0], normal[1], normal[2]);
     }
 
     Reflection(float x, float y, float z)
@@ -141,9 +139,8 @@ public:
             x /= m;
             y /= m;
             z /= m;
-
-            this->normal = { x, y, z };
         }
+        this->normal = { x, y, z };
     }
 
     Reflection(const Reflection& other)

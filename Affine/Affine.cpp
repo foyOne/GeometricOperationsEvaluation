@@ -2,6 +2,7 @@
 #include "Writers/STLWriter/STLWriter.h"
 
 #include "TransformationExecutors/StandardSTLTransformationExecutor/StandardSTLTransformationExecutor.h"
+#include "TransformationExecutors/MKLSTLTransformationExecutor/MKLSTLTransformationExecutor.h"
 #include "TransformationExecutors/TransformationExecutor.h"
 #include "Result.h"
 
@@ -33,7 +34,7 @@ std::string GenerateOutputFile(std::string file)
     return ss.str();
 }
 
-int main()
+void StandardSTLTest()
 {
     std::string pathToTest = "TestData/InputModels/";
 
@@ -45,6 +46,27 @@ int main()
     TransformationExecutorPtr stlExecutor(new StandardSTLTransformationExecutor(builder));
 
     test.Start(stlExecutor, true);
+}
+
+int main()
+{
+    std::string pathToTest = "TestData/InputModels/";
+
+    STLModelTest test(pathToTest);
+
+    TransformationBuilder builder;
+    builder.AddTranslation(Translation(1, 1, 1));
+    builder.AddRotation(Rotation({ 1, 1, 1 }, 90));
+    builder.AddReflection(Reflection(0, 0, 1));
+
+    TransformationExecutorPtr stlExecutor(std::make_shared<MKLSTLTransformationExecutor>(builder));
+
+    //test.Start(stlExecutor, true);
+
+    STLReader reader;
+    auto model = reader.Read(pathToTest + "Sphere.stl");
+
+    stlExecutor->Transform(model);
 
     return 0;
 }

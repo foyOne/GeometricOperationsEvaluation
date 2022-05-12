@@ -18,26 +18,21 @@ public:
         _transformations.clear();
     }
 
-    void Convolve() {};
-
     TransformationBuilder& AddTranslation(const Translation& translation)
     {
-        TransformationPtr toAdd(new Translation(translation));
-        _transformations.push_back(toAdd);
+        _transformations.push_back(std::make_shared<Translation>(translation));
         return *this;
     }
 
     TransformationBuilder& AddRotation(const Rotation& rotation)
     {
-        TransformationPtr toAdd(new Rotation(rotation));
-        _transformations.push_back(toAdd);
+        _transformations.push_back(std::make_shared<Rotation>(rotation));
         return *this;
     }
 
     TransformationBuilder& AddReflection(const Reflection& reflection)
     {
-        TransformationPtr toAdd(new Reflection(reflection));
-        _transformations.push_back(toAdd);
+        _transformations.push_back(std::make_shared<Reflection>(reflection));
         return *this;
     }
 

@@ -18,6 +18,9 @@ STLModelPtr STLReader::Read(std::string file)
 
 		std::memcpy(model->vertices.data(), solid.first.vertices.data(), verticesCount * sizeof(float));
 		std::memcpy(model->normals.data(), solid.first.normals.data(), normalsCount * sizeof(float));
+
+		model->header = solid.first.header;
+		model->SetStorageType(StorageType::Height);
 	}
 	catch (const std::exception& e)
 	{

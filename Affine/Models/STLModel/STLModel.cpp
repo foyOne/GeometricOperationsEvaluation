@@ -4,8 +4,68 @@
 #include <algorithm>
 #include <numeric>
 
+#include <mkl.h>
 
 
+void STLModel::SetStorageType(StorageType newStorageType)
+{
+	if (storageType == newStorageType)
+		return;
+
+	auto vertexShape = GetVertexShape();
+	MKL_Simatcopy(
+		'R',
+		'T',
+		vertexShape.first,
+		vertexShape.second,
+		1.0f,
+		vertices.data(),
+		vertexShape.second,
+		vertexShape.first);
+
+	auto normalShape = GetNormalShape();
+	MKL_Simatcopy(
+		'R',
+		'T',
+		normalShape.first,
+		normalShape.second,
+		1.0f,
+		normals.data(),
+		normalShape.second,
+		normalShape.first);
+
+	storageType = newStorageType;
+}
+
+std::pair<size_t, size_t> STLModel::GetVertexShape() const
+{
+	switch (storageType)
+	{
+		case StorageType::Height:
+		{
+			return std::pair<size_t, size_t>(vertices.size() / 3, 3);
+		}
+		case StorageType::Width:
+		{
+			return std::pair<size_t, size_t>(3, vertices.size() / 3);
+		}
+	}
+}
+
+std::pair<size_t, size_t> STLModel::GetNormalShape() const
+{
+	switch (storageType)
+	{
+		case StorageType::Height:
+		{
+			return std::pair<size_t, size_t>(normals.size() / 3, 3);
+		}
+		case StorageType::Width:
+		{
+			return std::pair<size_t, size_t>(3, normals.size() / 3);
+		}
+	}
+}
 
 bool STLModel::Compare(const STLModelPtr other, bool fast) const
 {
