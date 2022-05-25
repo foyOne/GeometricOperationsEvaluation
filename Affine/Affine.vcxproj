@@ -39,6 +39,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseInteloneMKL>Sequential</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -54,6 +55,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseInteloneMKL>Sequential</UseInteloneMKL>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -107,6 +109,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>C:\Users\filim\source\repos\Affine\Affine\Models;C:\Users\filim\source\repos\Affine\Affine\TPL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +143,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\filim\source\repos\Affine\Affine\TPL;C:\Users\filim\source\repos\Affine\Affine\Models;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,9 +158,12 @@
   <ItemGroup>
     <ClCompile Include="Affine.cpp" />
     <ClCompile Include="Models\STLModel\STLModel.cpp" />
+    <ClCompile Include="RawTransformation.cpp" />
     <ClCompile Include="Readers\STLReader\STLReader.cpp" />
+    <ClCompile Include="SimpleTest.cpp" />
     <ClCompile Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.cpp" />
     <ClCompile Include="TransformationExecutors\StandardSTLTransformationExecutor\StandardSTLTransformationExecutor.cpp" />
+    <ClCompile Include="TransformationExecutors\TestSTLTransformationExecutor\TestSTLTransformationExecutor.cpp" />
     <ClCompile Include="Writers\STLWriter\STLWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,11 +171,14 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Models\STLModel\STLModel.h" />
+    <ClInclude Include="RawTransformation.h" />
     <ClInclude Include="Readers\STLReader\STLReader.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="SimpleTest.h" />
     <ClInclude Include="STLModelTest.h" />
     <ClInclude Include="TPL\stlio.hpp" />
     <ClInclude Include="TransformationBuilder.h" />
+    <ClInclude Include="TransformationExecutors\TestSTLTransformationExecutor\TestSTLTransformationExecutor.h" />
     <ClInclude Include="TransformationExecutors\TransformationExecutor.h" />
     <ClInclude Include="TransformationExecutors\MKLSTLTransformationExecutor\MKLSTLTransformationExecutor.h" />
     <ClInclude Include="TransformationExecutors\StandardSTLTransformationExecutor\StandardSTLTransformationExecutor.h" />

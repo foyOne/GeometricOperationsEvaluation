@@ -9,6 +9,29 @@ class TransformationView
 public:
 	TransformationView() = default;
 
+	template<class T>
+	std::vector<T> RelfectionAsMatrix(ReflectionPtr reflection)
+	{
+		T x, y, z;
+		x = static_cast<T>(reflection->normal[0]);
+		y = static_cast<T>(reflection->normal[1]);
+		z = static_cast<T>(reflection->normal[2]);
+
+		T xx = 1 - 2 * x * x, yy = 1 - 2 * y * y, zz = 1 - 2 * z * z;
+		T xy = -2 * x * y;
+		T yz = -2 * y * z;
+		T zx = -2 * z * x;
+
+		std::vector<T> matrix =
+		{
+			xx, xy, zx,
+			xy, yy, yz,
+			zx, yz, zz
+		};
+
+		return matrix;
+	}
+
 	std::vector<float> AsMatrix(TransformationPtr t)
 	{
 		switch (t->GetType())

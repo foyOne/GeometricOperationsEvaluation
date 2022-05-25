@@ -49,6 +49,9 @@
     <Filter Include="TPL">
       <UniqueIdentifier>{555a62d7-f391-454c-b4eb-99c95904f505}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TransformationExecutors\TestSTLTransformationExecutor">
+      <UniqueIdentifier>{877fbf3b-d030-4912-9908-6fabe7187e6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Affine.cpp">
@@ -68,6 +71,15 @@
     </ClCompile>
     <ClCompile Include="Models\STLModel\STLModel.cpp">
       <Filter>Models\STLModel</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformationExecutors\TestSTLTransformationExecutor\TestSTLTransformationExecutor.cpp">
+      <Filter>TransformationExecutors\TestSTLTransformationExecutor</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleTest.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="RawTransformation.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="TPL\stlio.hpp">
       <Filter>TPL</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationExecutors\TestSTLTransformationExecutor\TestSTLTransformationExecutor.h">
+      <Filter>TransformationExecutors\TestSTLTransformationExecutor</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleTest.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="RawTransformation.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

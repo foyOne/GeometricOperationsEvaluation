@@ -126,10 +126,6 @@ class Reflection : public Transformation
 {
 public:
 
-    Reflection(const std::array<float, 3>& normal) : Reflection(normal[0], normal[1], normal[2])
-    {
-    }
-
     Reflection(float x, float y, float z)
     {
         float m = std::sqrt(x * x + y * y + z * z);
